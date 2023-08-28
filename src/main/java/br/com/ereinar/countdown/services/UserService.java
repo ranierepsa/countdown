@@ -25,4 +25,15 @@ public class UserService {
     public Set<User> findAllUsers() {
         return this.userRepository.findAllDistinct();
     }
+
+    public User updateUser(Long userId, UserDTO dto) {
+        User user = new User(dto);
+        user.setId(userId);
+        return this.userRepository.save(user);
+    }
+
+    public void deleteUser(Long id) throws Exception{
+        User user = this.findUserById(id);
+        this.userRepository.delete(user);
+    }
 }

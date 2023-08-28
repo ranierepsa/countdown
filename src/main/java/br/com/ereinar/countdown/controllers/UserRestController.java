@@ -17,18 +17,29 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
+    @PostMapping()
+    public ResponseEntity<User> createUser(@RequestBody UserDTO user) {
+        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
+    }
+
+    @GetMapping()
+    public ResponseEntity<Set<User>> findAllUsers() {
+        return new ResponseEntity<>(this.userService.findAllUsers(), HttpStatus.FOUND);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<User> findUserById(@PathVariable Long id) throws Exception {
         return new ResponseEntity<>(userService.findUserById(id), HttpStatus.FOUND);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody UserDTO user) {
-        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserDTO dto) {
+        return new ResponseEntity<>(this.userService.updateUser(id, dto), HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<Set<User>> findAllUsers() {
-        return new ResponseEntity<>(this.userService.findAllUsers(), HttpStatus.FOUND);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws Exception {
+        this.userService.deleteUser(id);
+        return ResponseEntity.ok().build();
     }
 }
