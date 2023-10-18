@@ -7,13 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class UserService {
+    
     @Autowired
     private UserRepository userRepository;
 
-    public User findUserById(Long id) throws Exception {
+    public User findUserById(UUID id) throws Exception {
         return userRepository.findById(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
     }
 
@@ -26,13 +28,13 @@ public class UserService {
         return this.userRepository.findAllDistinct();
     }
 
-    public User updateUser(Long userId, UserDTO dto) {
+    public User updateUser(UUID userId, UserDTO dto) {
         User user = new User(dto);
         user.setId(userId);
         return this.userRepository.save(user);
     }
 
-    public void deleteUser(Long id) throws Exception{
+    public void deleteUser(UUID id) throws Exception{
         User user = this.findUserById(id);
         this.userRepository.delete(user);
     }

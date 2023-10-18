@@ -5,18 +5,16 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity(name = "users")
 @Table(name = "users")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@Data
 public class User {
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    private UUID id;
     private String firstName;
     private String lastName;
     private String login;
@@ -26,6 +24,8 @@ public class User {
 //    private Set<Countdown> countdownsOwned;
 //    private Set<Countdown> hypes;
 //    private Set<Countdown> likes;
+
+    public User() { }
 
     public User(UserDTO dto) {
         this.firstName = dto.firstName();
